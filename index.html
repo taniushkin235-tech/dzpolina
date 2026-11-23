@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>G9-HW01 · Homework: First Impressions & Personal Profile (Polina)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --wine:#5C1E2E; --wine-dark:#421420; --wine-soft:#EAD9DD;
+  --gold:#B8873A; --gold-light:#E3C377; --gold-soft:#F1E4C6;
+  --bg:#F3E8E2; --card:#FDF9F6; --card-deep:#F7F0EB;
+  --ink:#221F1D; --muted:#756963; --line:#E4D8D1;
+  --teach:#F0E4CF; --teach-line:#C6A96E;
+  --green:#3D6B52; --greensoft:#E1EBE4;
+  --red:#9B2E22; --redsoft:#F6DDD5;
+  --amber:#9A6A12; --ambersoft:#F7E8C4;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--ink);font-family:"Manrope",system-ui,sans-serif;font-size:16.5px;line-height:1.55;padding-bottom:60px}
+h1,h2,h3,.serif{font-family:"Lora",Georgia,serif;font-weight:600}
+
+/* Sticky Progress Bar */
+.bar{position:sticky;top:0;z-index:50;background:var(--wine);color:#fff;padding:12px 18px;box-shadow:0 4px 14px rgba(66,20,32,.2)}
+.bar-inner{max-width:920px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.bar-title{font-family:"Lora",serif;font-size:18px;font-weight:600}
+.legend{display:flex;gap:10px;font-size:13px;font-weight:700;flex-wrap:wrap}
+.leg-ok{background:var(--greensoft);color:var(--green);padding:3px 9px;border-radius:999px}
+.leg-no{background:var(--redsoft);color:var(--red);padding:3px 9px;border-radius:999px}
+.leg-miss{background:var(--ambersoft);color:var(--amber);padding:3px 9px;border-radius:999px}
+.score-pill{background:var(--gold);color:#fff;padding:5px 13px;border-radius:999px;font-weight:800;font-size:14px}
+
+.wrap{max-width:920px;margin:24px auto;padding:0 16px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:24px 26px;margin-bottom:20px;box-shadow:0 6px 20px rgba(92,30,46,.05)}
+.sec-tag{display:inline-block;background:var(--wine-soft);color:var(--wine);font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.07em;padding:4px 11px;border-radius:999px;margin-bottom:8px}
+h1{font-size:28px;color:var(--wine-dark);margin-bottom:6px}
+h2{font-size:21px;color:var(--wine);margin-bottom:8px}
+.sub{color:var(--muted);font-size:15px;margin-bottom:16px}
+
+/* Choose */
+.q-row{background:var(--card-deep);border:1px solid var(--line);border-radius:14px;padding:13px 16px;margin-bottom:10px}
+.q-txt{font-weight:700;margin-bottom:8px}
+.opts{display:flex;flex-wrap:wrap;gap:8px}
+.opt{background:#fff;border:2px solid var(--line);border-radius:10px;padding:7px 14px;font-family:inherit;font-size:15px;font-weight:600;cursor:pointer;transition:.15s}
+.opt:hover{border-color:var(--gold)}
+.opt.sel{background:var(--wine);color:#fff;border-color:var(--wine)}
+.opt.ok{background:var(--greensoft);border-color:var(--green);color:var(--green)}
+.opt.no{background:var(--redsoft);border-color:var(--red);color:var(--red)}
+.opt.miss{background:var(--ambersoft);border-color:var(--amber);color:var(--amber)}
+
+/* Match */
+.match-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:620px){.match-grid{grid-template-columns:1fr}}
+.m-col{display:flex;flex-direction:column;gap:8px}
+.m-item{background:#fff;border:2px solid var(--line);border-radius:12px;padding:10px 14px;text-align:left;font-family:inherit;font-size:15px;font-weight:600;cursor:pointer}
+.m-item.active{border-color:var(--gold);background:var(--gold-soft)}
+.m-item.done{background:var(--greensoft);border-color:var(--green);color:var(--green);cursor:default}
+.m-item.err{background:var(--redsoft);border-color:var(--red)}
+
+/* Tick */
+.tick-row{display:flex;align-items:center;gap:12px;background:var(--card-deep);border:2px solid var(--line);border-radius:12px;padding:11px 14px;margin-bottom:8px;cursor:pointer;font-weight:600}
+.tick-row input{width:20px;height:20px;accent-color:var(--wine);cursor:pointer}
+.tick-row.ok{background:var(--greensoft);border-color:var(--green);color:var(--green)}
+.tick-row.no{background:var(--redsoft);border-color:var(--red);color:var(--red)}
+.tick-row.miss{background:var(--ambersoft);border-color:var(--amber);color:var(--amber)}
+
+/* About Me */
+.form-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px;margin:12px 0}
+.field label{display:block;font-size:13px;font-weight:700;color:var(--muted);margin-bottom:4px}
+.field input{width:100%;padding:10px 12px;border:2px solid var(--line);border-radius:10px;font-family:inherit;font-size:15px;background:#fff}
+.preview{background:var(--teach);border:2px solid var(--teach-line);border-radius:14px;padding:16px 18px;font-family:"Lora",serif;font-size:17px;line-height:1.65;margin-top:12px}
+.preview span{color:var(--wine);font-weight:700;border-bottom:2px solid var(--gold)}
+
+/* Buttons */
+.btn{background:var(--wine);color:#fff;border:none;padding:13px 24px;border-radius:12px;font-family:inherit;font-size:16px;font-weight:800;cursor:pointer;transition:.18s}
+.btn:hover{background:var(--wine-dark)}
+.btn-gold{background:var(--gold)}
+.btn-gold:hover{background:#9A6E28}
+.status-msg{margin-top:14px;padding:12px 16px;border-radius:12px;font-weight:700;display:none}
+.status-msg.show{display:block;background:var(--greensoft);color:var(--green);border:1px solid var(--green)}
+</style>
+</head>
+<body>
+
+<div class="bar">
+  <div class="bar-inner">
+    <div class="bar-title">G9-HW01 · Polina · Personal Profile (A1)</div>
+    <div class="legend">
+      <span class="leg-ok">✓ right</span>
+      <span class="leg-no">✗ wrong</span>
+      <span class="leg-miss">amber = missed</span>
+    </div>
+    <div class="score-pill" id="scorePill">Score: 0 / 36</div>
+  </div>
+</div>
+
+<main class="wrap">
+  <div class="card">
+    <span class="sec-tag">Homework · Grade 9 · Level A1</span>
+    <h1>First Impressions &amp; Personal Profile</h1>
+    <p class="sub">Complete all sections below, then click <strong>Check &amp; Send to Teacher</strong> at the bottom of the page.</p>
+  </div>
+
+  <!-- PART 1: CHOOSE A -->
+  <div class="card">
+    <span class="sec-tag">Part 1 · Choose A (Grammar · 8 pts)</span>
+    <h2>Choose the correct word</h2>
+    <p class="sub">Remember: <strong>to be</strong> (am/is/are), <strong>do</strong> in Present Simple questions, and <strong>I like + V-ing</strong>!</p>
+    <div id="chooseA"></div>
+  </div>
+
+  <!-- PART 2: CHOOSE B -->
+  <div class="card">
+    <span class="sec-tag">Part 2 · Choose B (Dialogue Reactions · 5 pts)</span>
+    <h2>At the English Club: Choose the best reply</h2>
+    <div id="chooseB"></div>
+  </div>
+
+  <!-- PART 3: MATCH A -->
+  <div class="card">
+    <span class="sec-tag">Part 3 · Match A (Vocabulary · 6 pts)</span>
+    <h2>Match the English word with its Russian meaning</h2>
+    <p class="sub">Click a word on the left, then click its meaning on the right.</p>
+    <div class="match-grid">
+      <div class="m-col" id="maL"></div>
+      <div class="m-col" id="maR"></div>
+    </div>
+  </div>
+
+  <!-- PART 4: MATCH B -->
+  <div class="card">
+    <span class="sec-tag">Part 4 · Match B (I like + V-ing · 6 pts)</span>
+    <h2>Match the hobby to the correct English phrase</h2>
+    <div class="match-grid">
+      <div class="m-col" id="mbL"></div>
+      <div class="m-col" id="mbR"></div>
+    </div>
+  </div>
+
+  <!-- PART 5: TICK A -->
+  <div class="card">
+    <span class="sec-tag">Part 5 · Tick ✔ A (Spot the Correct Sentences · 6 pts)</span>
+    <h2>Tick ✔ ONLY the grammatically correct sentences</h2>
+    <p class="sub">Some sentences have a mistake (missing <em>-ing</em> or wrong question order). Tick only the right ones!</p>
+    <div id="tickA"></div>
+  </div>
+
+  <!-- PART 6: TICK B -->
+  <div class="card">
+    <span class="sec-tag">Part 6 · Tick ✔ B (Reading Check: Mia's Story · 5 pts)</span>
+    <h2>Tick ✔ the TRUE sentences about Mia</h2>
+    <div id="tickB"></div>
+  </div>
+
+  <!-- PART 7: ABOUT ME -->
+  <div class="card">
+    <span class="sec-tag">Part 7 · About Me (Writing)</span>
+    <h2>Write Your Personal Profile</h2>
+    <p class="sub">Fill in the boxes. Your text will be sent to your teacher together with your score!</p>
+    <div class="form-grid">
+      <div class="field"><label>Name</label><input data-f="name" value="Polina"></div>
+      <div class="field"><label>Age</label><input data-f="age" placeholder="15"></div>
+      <div class="field"><label>Hometown</label><input data-f="city" placeholder="Irkutsk"></div>
+      <div class="field"><label>Personality (2 words)</label><input data-f="trait" placeholder="friendly and curious"></div>
+      <div class="field"><label>I like + V-ing (your hobby)</label><input data-f="hobby" placeholder="listening to music and taking photos"></div>
+      <div class="field"><label>My goal this year</label><input data-f="goal" placeholder="speak English well"></div>
+    </div>
+    <div class="preview" id="aboutPreview">
+      Hi! My name is <span data-out="name">Polina</span>. I am <span data-out="age">___</span> years old. My hometown is <span data-out="city">___</span>. I am <span data-out="trait">___</span>. In my free time, I like <span data-out="hobby">___</span>. My goal this year is to <span data-out="goal">___</span>!
+    </div>
+  </div>
+
+  <!-- SUBMIT -->
+  <div class="card" style="text-align:center">
+    <button class="btn btn-gold" id="submitBtn" onclick="checkAndSend()">✔ Check &amp; Send to Teacher</button>
+    <div class="status-msg" id="statusMsg"></div>
+  </div>
+</main>
+
+<script>
+const LESSON_CONFIG = {
+  student: "Polina",
+  className: "Grade 9",
+  lessonId: "G9-HW01",
+  lessonName: "First Impressions & Personal Profile",
+  workType: "Homework"
+};
+const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwdnW7fGkmhg3jleMHeJHoTSp88SiEilAELj2YVNg5tKAIBZ0Gs_-QNhtYLQwImxWvv/exec";
+
+function sendResult(payload) {
+  return fetch(WEB_APP_URL, {
+    method: "POST",
+    mode: "no-cors",
+    headers: { "Content-Type": "text/plain;charset=utf-8" },
+    body: JSON.stringify(payload)
+  });
+}
+
+// DATA
+const CHOOSE_A = [
+  { q: '1. What ______ your name?', opts: ['is', 'are', 'do'], ans: 0 },
+  { q: '2. Where ______ you from?', opts: ['is', 'are', 'do'], ans: 1 },
+  { q: '3. How ______ are you?', opts: ['age', 'old', 'many'], ans: 1 },
+  { q: '4. What ______ you like doing in your free time?', opts: ['are', 'is', 'do'], ans: 2 },
+  { q: '5. I like ______ to music.', opts: ['listen', 'listening', 'listens'], ans: 1 },
+  { q: '6. Mia likes ______ photos.', opts: ['taking', 'take', 'takes'], ans: 0 },
+  { q: '7. I ______ a student in Grade 9.', opts: ['is', 'are', 'am'], ans: 2 },
+  { q: '8. ______ is your hometown?', opts: ['What', 'Who', 'How old'], ans: 0 }
+];
+
+const CHOOSE_B = [
+  { q: '1. Alex: "Hi! Are you Mia?"', opts: ['Yes, I am!', 'I am from Spain.', 'I like music.'], ans: 0 },
+  { q: '2. Alex: "Welcome to our English club!"', opts: ['How old are you?', 'Thank you!', 'I am sixteen.'], ans: 1 },
+  { q: '3. Mia: "Where are you from, Alex?"', opts: ['I am fifteen.', 'I am from Chicago, in the USA.', 'Nice to meet you.'], ans: 1 },
+  { q: '4. Alex: "What do you like doing in your free time?"', opts: ['I like listening to music.', 'My name is Mia.', 'Yes, I am.'], ans: 0 },
+  { q: '5. Mia: "I am fifteen. And you?"', opts: ['I am from Madrid.', 'I am sixteen.', 'Thank you!'], ans: 1 }
+];
+
+const MATCH_A = [
+  { l: 'hometown', r: 'родной город' },
+  { l: 'hobby', r: 'хобби' },
+  { l: 'goal', r: 'цель' },
+  { l: 'curious', r: 'любознательный' },
+  { l: 'friendly', r: 'дружелюбный' },
+  { l: 'introduce', r: 'представлять / знакомить' }
+];
+
+const MATCH_B = [
+  { l: 'слушать музыку', r: 'listening to music' },
+  { l: 'фотографировать', r: 'taking photos' },
+  { l: 'играть в видеоигры', r: 'playing video games' },
+  { l: 'читать книги', r: 'reading books' },
+  { l: 'смотреть фильмы', r: 'watching films' },
+  { l: 'говорить по-английски', r: 'speaking English' }
+];
+
+const TICK_A = [
+  { t: 'I like listening to music.', ok: true },
+  { t: 'I like take photos.', ok: false },
+  { t: 'Where are you from?', ok: true },
+  { t: 'What you like doing?', ok: false },
+  { t: 'My hometown is Madrid.', ok: true },
+  { t: 'How old is you?', ok: false }
+];
+
+const TICK_B = [
+  { t: 'Mia is fifteen years old.', ok: true },
+  { t: 'Mia is from the USA.', ok: false },
+  { t: 'Mia is in Grade 9.', ok: true },
+  { t: 'Mia is friendly and curious.', ok: true },
+  { t: 'Mia does not like music.', ok: false }
+];
+
+// Render Choose
+function renderChoose(list, containerId, prefix) {
+  const el = document.getElementById(containerId);
+  list.forEach((item, idx) => {
+    const row = document.createElement('div');
+    row.className = 'q-row';
+    row.dataset.key = prefix + idx;
+    row.innerHTML = `<div class="q-txt">${item.q}</div><div class="opts"></div>`;
+    const optsEl = row.querySelector('.opts');
+    item.opts.forEach((o, oi) => {
+      const b = document.createElement('button');
+      b.className = 'opt';
+      b.textContent = o;
+      b.dataset.oi = oi;
+      b.onclick = () => {
+        optsEl.querySelectorAll('.opt').forEach(x => x.classList.remove('sel','ok','no','miss'));
+        b.classList.add('sel');
+      };
+      optsEl.appendChild(b);
+    });
+    el.appendChild(row);
+  });
+}
+renderChoose(CHOOSE_A, 'chooseA', 'ca');
+renderChoose(CHOOSE_B, 'chooseB', 'cb');
+
+// Render Match
+let matchScoreA = 0, matchScoreB = 0;
+function renderMatch(pairs, lId, rId, order, onHit) {
+  const lEl = document.getElementById(lId);
+  const rEl = document.getElementById(rId);
+  let activeL = null;
+  pairs.forEach((p, idx) => {
+    const b = document.createElement('button');
+    b.className = 'm-item';
+    b.textContent = p.l;
+    b.dataset.id = idx;
+    b.onclick = () => {
+      if (b.classList.contains('done')) return;
+      lEl.querySelectorAll('.m-item').forEach(x => x.classList.remove('active'));
+      b.classList.add('active');
+      activeL = b;
+    };
+    lEl.appendChild(b);
+  });
+  order.forEach(idx => {
+    const b = document.createElement('button');
+    b.className = 'm-item';
+    b.textContent = pairs[idx].r;
+    b.dataset.id = idx;
+    b.onclick = () => {
+      if (!activeL || b.classList.contains('done')) return;
+      if (activeL.dataset.id === b.dataset.id) {
+        activeL.classList.remove('active');
+        activeL.classList.add('done');
+        b.classList.add('done');
+        activeL = null;
+        onHit();
+      } else {
+        b.classList.add('err');
+        setTimeout(() => b.classList.remove('err'), 400);
+      }
+    };
+    rEl.appendChild(b);
+  });
+}
+renderMatch(MATCH_A, 'maL', 'maR', [3, 0, 5, 1, 4, 2], () => { matchScoreA++; });
+renderMatch(MATCH_B, 'mbL', 'mbR', [2, 5, 0, 4, 1, 3], () => { matchScoreB++; });
+
+// Render Tick
+function renderTick(list, containerId, prefix) {
+  const el = document.getElementById(containerId);
+  list.forEach((item, idx) => {
+    const lbl = document.createElement('label');
+    lbl.className = 'tick-row';
+    lbl.dataset.key = prefix + idx;
+    lbl.innerHTML = `<input type="checkbox"> <span>${item.t}</span>`;
+    el.appendChild(lbl);
+  });
+}
+renderTick(TICK_A, 'tickA', 'ta');
+renderTick(TICK_B, 'tickB', 'tb');
+
+// Live About Me
+document.querySelectorAll('input[data-f]').forEach(inp => {
+  inp.addEventListener('input', () => {
+    const out = document.querySelector(`span[data-out="${inp.dataset.f}"]`);
+    if (out) out.textContent = inp.value.trim() || '___';
+  });
+});
+
+// Check & Send
+function checkAndSend() {
+  let score = matchScoreA + matchScoreB;
+  const maxScore = CHOOSE_A.length + CHOOSE_B.length + MATCH_A.length + MATCH_B.length + TICK_A.length + TICK_B.length; // 36
+  const mistakes = [];
+
+  function evalChoose(list, containerId, label) {
+    const rows = document.querySelectorAll(`#${containerId} .q-row`);
+    rows.forEach((row, idx) => {
+      const ans = list[idx].ans;
+      const sel = row.querySelector('.opt.sel');
+      const opts = row.querySelectorAll('.opt');
+      opts.forEach(o => o.classList.remove('ok','no','miss'));
+      if (!sel) {
+        opts[ans].classList.add('miss');
+        mistakes.push(`${label}#${idx+1} missed`);
+      } else if (Number(sel.dataset.oi) === ans) {
+        sel.classList.add('ok');
+        score++;
+      } else {
+        sel.classList.add('no');
+        opts[ans].classList.add('miss');
+        mistakes.push(`${label}#${idx+1} wrong`);
+      }
+    });
+  }
+  evalChoose(CHOOSE_A, 'chooseA', 'ChooseA');
+  evalChoose(CHOOSE_B, 'chooseB', 'ChooseB');
+
+  function evalTick(list, containerId, label) {
+    const rows = document.querySelectorAll(`#${containerId} .tick-row`);
+    rows.forEach((row, idx) => {
+      const checked = row.querySelector('input').checked;
+      const should = list[idx].ok;
+      row.classList.remove('ok','no','miss');
+      if (checked === should) {
+        score++;
+        if (checked) row.classList.add('ok');
+      } else if (checked && !should) {
+        row.classList.add('no');
+        mistakes.push(`${label}#${idx+1} wrong tick`);
+      } else {
+        row.classList.add('miss');
+        mistakes.push(`${label}#${idx+1} missed tick`);
+      }
+    });
+  }
+  evalTick(TICK_A, 'tickA', 'TickA');
+  evalTick(TICK_B, 'tickB', 'TickB');
+
+  const percent = Math.round((score / maxScore) * 100);
+  document.getElementById('scorePill').textContent = `Score: ${score} / ${maxScore} (${percent}%)`;
+
+  const aboutText = document.getElementById('aboutPreview').innerText.trim();
+  const payload = {
+    ...LESSON_CONFIG,
+    score,
+    maxScore,
+    percent,
+    details: `About Me: ${aboutText} | Notes: ${mistakes.length ? mistakes.join('; ') : 'All correct!'}`,
+    submittedAt: new Date().toISOString()
+  };
+
+  const msg = document.getElementById('statusMsg');
+  msg.textContent = `Result: ${score} / ${maxScore} (${percent}%). Sending to teacher...`;
+  msg.classList.add('show');
+
+  sendResult(payload)
+    .then(() => {
+      msg.textContent = `✔ Done! Your score (${score}/${maxScore}, ${percent}%) and About Me text were sent to your teacher!`;
+    })
+    .catch(() => {
+      msg.textContent = `Result checked: ${score}/${maxScore} (${percent}%). (If offline, please take a screenshot and send it to your teacher.)`;
+    });
+}
+</script>
+</body>
+</html>
